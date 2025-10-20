@@ -1,0 +1,286 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+    
+    /* Theme System Variables - Default Theme (Colorful) */
+    --theme-bg-primary: #FFFFFF;
+    --theme-bg-secondary: #EFF6FF;
+    --theme-bg-accent: #2563EB;
+    --theme-text-primary: #1E293B;
+    --theme-text-secondary: #64748B;
+    --theme-border: #CBD5E1;
+    --theme-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --theme-shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --theme-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --theme-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --theme-radius: 0.5rem;
+    --theme-radius-sm: 0.375rem;
+    --theme-radius-md: 0.5rem;
+    --theme-radius-lg: 0.75rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+  
+  /* Minimal Theme Variables - Grayscale & Clean */
+  :root[data-theme="minimal"] {
+    --theme-bg-primary: #FAFAFA;
+    --theme-bg-secondary: #F5F5F5;
+    --theme-bg-accent: #404040;
+    --theme-text-primary: #171717;
+    --theme-text-secondary: #737373;
+    --theme-border: #E5E5E5;
+    --theme-shadow: none;
+    --theme-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.03);
+    --theme-shadow-md: 0 1px 3px 0 rgb(0 0 0 / 0.05);
+    --theme-shadow-lg: 0 2px 4px 0 rgb(0 0 0 / 0.06);
+    --theme-radius: 0.25rem;
+    --theme-radius-sm: 0.125rem;
+    --theme-radius-md: 0.25rem;
+    --theme-radius-lg: 0.375rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Theme Transition System - Optimized for real-time theme switching */
+  /* Only transition properties that change with theme to avoid performance issues */
+  
+  /* Root level transitions for CSS variables */
+  :root {
+    transition: 
+      background-color 200ms ease-in-out,
+      color 200ms ease-in-out,
+      border-color 200ms ease-in-out;
+  }
+  
+  /* Selective transitions for theme-aware elements */
+  /* Only apply to properties that actually change with theme */
+  *,
+  *::before,
+  *::after {
+    transition-property: background-color, border-color, color, opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
+  }
+  
+  /* Specific transitions for shadow changes (more expensive, so separate) */
+  .card,
+  [class*="shadow"],
+  button,
+  input,
+  select,
+  textarea {
+    transition-property: background-color, border-color, color, opacity, box-shadow;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
+  }
+  
+  /* Smooth transitions for elements using theme CSS variables */
+  [style*="--theme"] {
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Prevent transitions during initial page load */
+  .no-transition,
+  .no-transition * {
+    transition: none !important;
+  }
+  
+  /* Disable transitions for interactive elements during interaction */
+  *:active,
+  *:focus {
+    transition-duration: 0ms;
+  }
+  
+  /* Respect user's motion preferences - accessibility requirement */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    
+    :root {
+      transition: none !important;
+    }
+  }
+  
+  /* Smooth theme change animation class */
+  .theme-transitioning {
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* Touch-friendly interactions */
+@layer utilities {
+  .touch-manipulation {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Smooth scrolling for better UX */
+  .smooth-scroll {
+    scroll-behavior: smooth;
+  }
+  
+  /* Theme Transition Utilities */
+  /* Use these classes for elements that need smooth theme transitions */
+  
+  .theme-transition-colors {
+    transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+                color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .theme-transition-all {
+    transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+                color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .theme-transition-fast {
+    transition-duration: 150ms;
+  }
+  
+  .theme-transition-slow {
+    transition-duration: 300ms;
+  }
+  
+  .theme-transition-none {
+    transition: none !important;
+  }
+}
+
+/* Responsive font sizing for better readability on tablets */
+@media (min-width: 768px) and (max-width: 1024px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+/* Ensure minimum touch target size (44x44px) for accessibility */
+button, 
+a, 
+input[type="button"], 
+input[type="submit"],
+[role="button"] {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Better focus states for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Print Styles for Receipt */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  
+  #receipt,
+  #receipt * {
+    visibility: visible;
+  }
+  
+  #receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  
+  /* Hide dialog overlay and backdrop */
+  [role="dialog"] {
+    position: static !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  
+  /* Ensure receipt content is visible */
+  .receipt-content {
+    padding: 20px;
+    max-width: 80mm; /* Standard receipt width */
+    margin: 0 auto;
+  }
+  
+  /* Remove page breaks within items */
+  .receipt-content > div {
+    page-break-inside: avoid;
+  }
+}
