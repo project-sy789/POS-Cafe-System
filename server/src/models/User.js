@@ -28,8 +28,8 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-// Index for faster username lookups
-userSchema.index({ username: 1 });
+// Note: username field has unique: true which automatically creates an index
+// No need for explicit userSchema.index({ username: 1 })
 
 // Hash password before saving
 userSchema.pre('save', async function(next) {

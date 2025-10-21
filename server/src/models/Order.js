@@ -145,8 +145,8 @@ const orderSchema = new mongoose.Schema({
   }
 });
 
+// Note: orderNumber field has unique: true which automatically creates an index
 // Indexes for efficient queries
-orderSchema.index({ orderNumber: 1 });
 orderSchema.index({ createdAt: -1 });
 orderSchema.index({ status: 1 }); // Single index for status filtering
 orderSchema.index({ status: 1, createdAt: -1 }); // Compound index for best-sellers query optimization
