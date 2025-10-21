@@ -4,6 +4,7 @@ import { getIO } from '../server.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import { promises as fsPromises } from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -46,11 +47,35 @@ export const createCategory = async (req, res) => {
     // Handle file uploads
     let imageUrl = '';
     let iconUrl = '';
+    let imageData = '';
 
     if (req.files) {
+      // Handle image upload - convert to base64
       if (req.files.image && req.files.image[0]) {
-        imageUrl = `/uploads/${req.files.image[0].filename}`;
+        const imageFile = req.files.image[0];
+        
+        // Validate file size (max 2MB)
+        if (imageFile.size > 2 * 1024 * 1024) {
+          // Delete uploaded file
+          fs.unlinkSync(imageFile.path);
+          return res.status(400).json({
+            error: 'Validation Error',
+            message: 'Image size must be less than 2MB'
+          });
+        }
+        
+        // Read file and convert to base64
+        const imageBuffer = await fsPromises.readFile(imageFile.path);
+        const base64Image = imageBuffer.toString('base64');
+        imageData = `data:${imageFile.mimetype};base64,${base64Image}`;
+        
+        // Delete temporary file
+        fs.unlinkSync(imageFile.path);
+        
+        // Keep imageUrl for backward compatibility
+        imageUrl = `/uploads/${imageFile.filename}`;
       }
+      
       if (req.files.icon && req.files.icon[0]) {
         iconUrl = `/uploads/${req.files.icon[0].filename}`;
       }
@@ -61,7 +86,8 @@ export const createCategory = async (req, res) => {
       name,
       description: description || '',
       imageUrl,
-      iconUrl
+      iconUrl,
+      imageData
     });
 
     await category.save();
@@ -162,7 +188,28 @@ export const updateCategory = async (req, res) => {
     // Handle file uploads
     if (req.files) {
       if (req.files.image && req.files.image[0]) {
-        category.imageUrl = `/uploads/${req.files.image[0].filename}`;
+        const imageFile = req.files.image[0];
+        
+        // Validate file size (max 2MB)
+        if (imageFile.size > 2 * 1024 * 1024) {
+          // Delete uploaded file
+          fs.unlinkSync(imageFile.path);
+          return res.status(400).json({
+            error: 'Validation Error',
+            message: 'Image size must be less than 2MB'
+          });
+        }
+        
+        // Read file and convert to base64
+        const imageBuffer = await fsPromises.readFile(imageFile.path);
+        const base64Image = imageBuffer.toString('base64');
+        category.imageData = `data:${imageFile.mimetype};base64,${base64Image}`;
+        
+        // Delete temporary file
+        fs.unlinkSync(imageFile.path);
+        
+        // Keep imageUrl for backward compatibility
+        category.imageUrl = `/uploads/${imageFile.filename}`;
 
         // Delete old image file if it exists
         if (oldImageUrl && oldImageUrl.startsWith('/uploads/')) {

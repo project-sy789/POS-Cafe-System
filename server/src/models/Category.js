@@ -20,6 +20,10 @@ const categorySchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  imageData: {
+    type: String,
+    default: ''
+  },
   createdAt: {
     type: Date,
     default: Date.now

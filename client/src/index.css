@@ -190,6 +190,51 @@
   .smooth-scroll {
     scroll-behavior: smooth;
   }
+}
+
+/* iOS Safari Touch Fixes */
+@layer base {
+  /* Fix iOS scroll momentum blocking touch events */
+  .cart-container,
+  .modal-content,
+  .scrollable-area {
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+  }
+  
+  /* Ensure buttons are always clickable on iOS */
+  button,
+  .clickable,
+  [role="button"] {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+  }
+  
+  /* Fix for fixed/sticky elements on iOS */
+  .fixed-bottom-buttons,
+  .sticky-buttons {
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    pointer-events: auto;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  
+  /* Prevent iOS zoom on input focus */
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+  
+  /* Fix iOS Safari modal scroll issues */
+  .modal-overlay {
+    position: fixed;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
   
   /* Theme Transition Utilities */
   /* Use these classes for elements that need smooth theme transitions */

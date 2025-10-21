@@ -160,12 +160,19 @@ const CategoryGrid = ({ onSelectCategory, selectedCategoryId, onFeaturedProducts
               }`}
             >
               <div className="flex items-center gap-2">
-                {/* Use icon if available, otherwise use image, otherwise use default emoji */}
+                {/* Use icon if available, otherwise use imageData (base64), otherwise use imageUrl, otherwise use default emoji */}
                 {category.iconUrl ? (
                   <img
                     src={category.iconUrl}
                     alt={category.name}
                     className="w-6 h-6 md:w-8 md:h-8 object-contain"
+                  />
+                ) : category.imageData ? (
+                  <img
+                    src={category.imageData}
+                    alt={category.name}
+                    style={{ borderRadius: 'var(--theme-radius-sm)' }}
+                    className="w-6 h-6 md:w-8 md:h-8 object-cover"
                   />
                 ) : category.imageUrl ? (
                   <img

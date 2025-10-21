@@ -260,6 +260,11 @@ export const createOrder = async (req, res) => {
     const io = getIO();
     if (io) {
       emitNewOrder(io, order);
+      
+      // Emit product_stock_changed event for real-time POS updates
+      io.emit('product_stock_changed', {
+        products: order.items.map(item => item.product)
+      });
     }
 
     res.status(201).json(order);
@@ -407,6 +412,13 @@ export const updateOrderStatus = async (req, res) => {
     const io = getIO();
     if (io) {
       emitOrderStatusUpdate(io, order);
+      
+      // Emit product_stock_changed event when order is cancelled (restore stock)
+      if (status === 'Cancelled') {
+        io.emit('product_stock_changed', {
+          products: order.items.map(item => item.product._id || item.product)
+        });
+      }
     }
 
     res.json(order);

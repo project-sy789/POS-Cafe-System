@@ -4,6 +4,7 @@ import { Card } from '../ui/card'
 import { Button } from '../ui/button'
 import CustomizationModal from './CustomizationModal'
 import toast from 'react-hot-toast'
+import { socket } from '../../services/socket'
 
 const MenuGrid = ({ categoryId, onAddToCart, featuredProducts = [] }) => {
   const [products, setProducts] = useState([])
@@ -22,6 +23,22 @@ const MenuGrid = ({ categoryId, onAddToCart, featuredProducts = [] }) => {
       fetchProducts()
     }
   }, [categoryId, featuredProducts])
+
+  // Listen for real-time stock updates
+  useEffect(() => {
+    const handleStockChange = () => {
+      // Refetch products when stock changes
+      if (categoryId !== 'featured') {
+        fetchProducts()
+      }
+    }
+
+    socket.on('product_stock_changed', handleStockChange)
+
+    return () => {
+      socket.off('product_stock_changed', handleStockChange)
+    }
+  }, [categoryId])
 
   const fetchProducts = async () => {
     try {
