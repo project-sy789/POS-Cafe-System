@@ -111,12 +111,14 @@ Login:
 - Runtime: `Node`
 - Build Command: 
   ```bash
-  cd client && npm ci && npm run build && cd ../server && npm ci --omit=dev
+  cd client && npm ci --include=dev && npm run build && cd ../server && npm ci --omit=dev
   ```
 - Start Command:
   ```bash
   cd server && npm start
   ```
+  
+**สำคัญ:** ต้องใช้ `--include=dev` เพื่อบังคับให้ติดตั้ง devDependencies (vite อยู่ใน devDependencies)
 
 **Instance Type:**
 - Free (หรือเลือกตามต้องการ)
