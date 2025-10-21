@@ -115,16 +115,17 @@ const OrderCart = ({ onCheckout }) => {
         </p>
       </div>
 
-      {/* Cart Items */}
-      <div className="flex-1 overflow-y-auto p-3 md:p-4 space-y-3 cart-container scrollable-area min-h-0">
+      {/* Cart Items + Order Details (Scrollable Area) */}
+      <div className="flex-1 overflow-y-auto cart-container scrollable-area min-h-0">
         {items.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-gray-400">
+          <div className="flex flex-col items-center justify-center h-full text-gray-400 p-3 md:p-4">
             <div className="text-6xl mb-4">🛒</div>
             <p>ตะกร้าว่างเปล่า</p>
             <p className="text-sm">เพิ่มสินค้าเพื่อเริ่มต้น</p>
           </div>
         ) : (
-          items.map((item) => (
+          <div className="p-3 md:p-4 space-y-3">
+            {items.map((item) => (
             <Card 
               key={item.product._id} 
               style={{
@@ -300,16 +301,13 @@ const OrderCart = ({ onCheckout }) => {
                 </div>
               </div>
             </Card>
-          ))
-        )}
-      </div>
+            ))}
 
-      {/* Order Details Form */}
-      {items.length > 0 && (
-        <div 
-          style={{ borderColor: 'var(--theme-border)' }}
-          className="border-t p-3 md:p-4 space-y-3"
-        >
+            {/* Order Details Form (Inside Scrollable Area) */}
+            <div 
+              style={{ borderColor: 'var(--theme-border)' }}
+              className="border-t pt-3 mt-3 space-y-3"
+            >
           <div>
             <label 
               style={{ color: 'var(--theme-text-primary)' }}
@@ -364,8 +362,8 @@ const OrderCart = ({ onCheckout }) => {
               </Button>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Totals */}
       {items.length > 0 && (
