@@ -90,8 +90,11 @@ const OrderCart = ({ onCheckout }) => {
 
   return (
     <div 
-      style={{ backgroundColor: 'var(--theme-bg-primary)' }}
-      className="flex flex-col h-full"
+      style={{ 
+        backgroundColor: 'var(--theme-bg-primary)',
+        boxShadow: 'var(--theme-shadow-lg)'
+      }}
+      className="flex flex-col h-full border-t-2 md:border-t-0"
     >
       {/* Header */}
       <div 

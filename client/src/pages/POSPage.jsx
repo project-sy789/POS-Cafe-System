@@ -157,7 +157,7 @@ const POSPage = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
         {/* Left Side - Menu Area */}
-        <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-1 flex flex-col overflow-hidden pb-32 md:pb-0">
           {/* Categories Section */}
           <div 
             style={{ 
@@ -195,13 +195,13 @@ const POSPage = () => {
           </div>
         </div>
 
-        {/* Right Side - Cart Sidebar */}
+        {/* Right Side - Cart Sidebar (Desktop: sidebar, Mobile: fixed bottom) */}
         <div 
           style={{ 
             backgroundColor: 'var(--theme-bg-primary)',
             borderColor: 'var(--theme-border)'
           }}
-          className="w-full md:w-96 lg:w-[28rem] xl:w-[32rem] border-l flex flex-col"
+          className="fixed bottom-0 left-0 right-0 md:relative md:w-96 lg:w-[28rem] xl:w-[32rem] md:border-l flex flex-col max-h-[40vh] md:max-h-none z-40"
         >
           <OrderCart onCheckout={handleCheckout} />
         </div>
