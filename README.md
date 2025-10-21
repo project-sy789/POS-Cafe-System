@@ -173,14 +173,7 @@ cd ../server
 npm start
 ```
 
-## 👥 Demo Accounts
-
-| Role | Username | Password | Permissions |
-|------|----------|----------|-------------|
-| **Manager** | admin | admin123 | Full access to all features |
-| **Cashier** | cashier1 | cashier123 | POS and order management |
-
-## 📱 Pages & Routes
+## � Peages & Routes
 
 ### Public Routes
 - `/login` - Login page
