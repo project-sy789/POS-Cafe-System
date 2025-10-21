@@ -116,7 +116,7 @@ const OrderCart = ({ onCheckout }) => {
       </div>
 
       {/* Cart Items */}
-      <div className="flex-1 overflow-y-auto p-3 md:p-4 space-y-3 cart-container scrollable-area">
+      <div className="flex-1 overflow-y-auto p-3 md:p-4 space-y-3 cart-container scrollable-area min-h-0">
         {items.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-gray-400">
             <div className="text-6xl mb-4">🛒</div>
@@ -370,8 +370,11 @@ const OrderCart = ({ onCheckout }) => {
       {/* Totals */}
       {items.length > 0 && (
         <div 
-          style={{ borderColor: 'var(--theme-border)' }}
-          className="border-t p-3 md:p-4 space-y-2 fixed-bottom-buttons sticky-buttons"
+          style={{ 
+            borderColor: 'var(--theme-border)',
+            backgroundColor: 'var(--theme-bg-primary)'
+          }}
+          className="border-t p-3 md:p-4 space-y-2"
         >
           {taxIncludedInPrice ? (
             <>
