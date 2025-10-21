@@ -139,11 +139,21 @@ const CategoryForm = ({ category, onClose }) => {
       submitData.append('description', formData.description)
 
       if (imageFile) {
+        console.log('Uploading image file:', imageFile.name, imageFile.size, 'bytes')
         submitData.append('image', imageFile)
+      } else {
+        console.log('No image file selected')
       }
 
       if (iconFile) {
+        console.log('Uploading icon file:', iconFile.name, iconFile.size, 'bytes')
         submitData.append('icon', iconFile)
+      }
+
+      // Log FormData contents
+      console.log('FormData contents:')
+      for (let pair of submitData.entries()) {
+        console.log(pair[0], ':', pair[1])
       }
 
       if (category) {
