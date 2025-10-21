@@ -111,11 +111,11 @@ Login:
 - Runtime: `Node`
 - Build Command: 
   ```bash
-  cd client && npm install && npm run build && cd ../server && npm install --production
+  npm install --prefix client && npm run build --prefix client && npm install --prefix server --omit=dev
   ```
 - Start Command:
   ```bash
-  cd server && npm start
+  npm start --prefix server
   ```
 
 **Instance Type:**

@@ -3,12 +3,12 @@ nixPkgs = ["nodejs-18_x", "npm-9_x"]
 
 [phases.install]
 cmds = [
-  "cd client && npm install",
-  "cd ../server && npm install --production"
+  "npm install --prefix client",
+  "npm install --prefix server --omit=dev"
 ]
 
 [phases.build]
-cmds = ["cd client && npm run build"]
+cmds = ["npm run build --prefix client"]
 
 [start]
-cmd = "cd server && npm start"
+cmd = "npm start --prefix server"
