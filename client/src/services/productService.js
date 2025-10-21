@@ -32,22 +32,30 @@ export const getProductById = async (productId) => {
 
 /**
  * Create a new category
- * @param {Object} data - Category data (name, description)
+ * @param {FormData} data - Category data (name, description, image file)
  * @returns {Promise<Object>} Created category object
  */
 export const createCategory = async (data) => {
-  const response = await api.post('/categories', data)
+  const response = await api.post('/categories', data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  })
   return response.data
 }
 
 /**
  * Update an existing category
  * @param {string} categoryId - Category ID
- * @param {Object} data - Updated category data
+ * @param {FormData} data - Updated category data including optional image file
  * @returns {Promise<Object>} Updated category object
  */
 export const updateCategory = async (categoryId, data) => {
-  const response = await api.put(`/categories/${categoryId}`, data)
+  const response = await api.put(`/categories/${categoryId}`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  })
   return response.data
 }
 
