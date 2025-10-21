@@ -47,6 +47,19 @@ const OrderCart = ({ onCheckout }) => {
     fetchSettings()
   }, [])
 
+  // Lock body scroll when cart is expanded on mobile
+  useEffect(() => {
+    if (isCartExpanded && window.innerWidth < 768) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isCartExpanded])
+
   const subtotal = getSubtotal()
   const basePrice = getBasePrice(taxRate, taxIncludedInPrice)
   const tax = getTax(taxRate, taxIncludedInPrice)
@@ -90,13 +103,22 @@ const OrderCart = ({ onCheckout }) => {
   }
 
   return (
-    <div 
-      style={{ 
-        backgroundColor: 'var(--theme-bg-primary)',
-        boxShadow: 'var(--theme-shadow-lg)'
-      }}
-      className="flex flex-col h-full border-t-2 md:border-t-0"
-    >
+    <>
+      {/* Overlay for mobile when cart is expanded */}
+      {isCartExpanded && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
+          onClick={() => setIsCartExpanded(false)}
+        />
+      )}
+      
+      <div 
+        style={{ 
+          backgroundColor: 'var(--theme-bg-primary)',
+          boxShadow: 'var(--theme-shadow-lg)'
+        }}
+        className="flex flex-col h-full border-t-2 md:border-t-0 relative z-40"
+      >
       {/* Header - Collapsible on Mobile */}
       <div 
         style={{ borderColor: 'var(--theme-border)' }}
@@ -459,7 +481,8 @@ const OrderCart = ({ onCheckout }) => {
           initialQuantity={editingItem.quantity}
         />
       )}
-    </div>
+      </div>
+    </>
   )
 }
 

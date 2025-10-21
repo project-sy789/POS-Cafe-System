@@ -201,7 +201,7 @@ const POSPage = () => {
             backgroundColor: 'var(--theme-bg-primary)',
             borderColor: 'var(--theme-border)'
           }}
-          className="fixed bottom-0 left-0 right-0 md:relative md:w-96 lg:w-[28rem] xl:w-[32rem] md:border-l flex flex-col max-h-[85vh] md:max-h-none z-40 transition-all duration-300"
+          className="fixed bottom-0 left-0 right-0 md:relative md:w-96 lg:w-[28rem] xl:w-[32rem] md:border-l flex flex-col max-h-[90vh] md:max-h-none transition-all duration-300"
         >
           <OrderCart onCheckout={handleCheckout} />
         </div>
