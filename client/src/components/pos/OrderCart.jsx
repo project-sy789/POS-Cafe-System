@@ -7,7 +7,7 @@ import { Trash2, Plus, Minus, Edit2, ChevronDown, ChevronUp } from 'lucide-react
 import api from '../../services/api'
 import CustomizationModal from './CustomizationModal'
 
-const OrderCart = ({ onCheckout }) => {
+const OrderCart = ({ onCheckout, onExpandChange }) => {
   const {
     items,
     customerName,
@@ -32,6 +32,13 @@ const OrderCart = ({ onCheckout }) => {
   const [editingItem, setEditingItem] = useState(null)
   const [isCustomizationModalOpen, setIsCustomizationModalOpen] = useState(false)
   const [isCartExpanded, setIsCartExpanded] = useState(false)
+
+  // Notify parent when cart expand state changes
+  useEffect(() => {
+    if (onExpandChange) {
+      onExpandChange(isCartExpanded)
+    }
+  }, [isCartExpanded, onExpandChange])
 
   // Fetch tax settings
   useEffect(() => {
