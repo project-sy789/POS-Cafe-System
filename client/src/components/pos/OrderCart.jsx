@@ -124,7 +124,7 @@ const OrderCart = ({ onCheckout }) => {
             <p className="text-sm">เพิ่มสินค้าเพื่อเริ่มต้น</p>
           </div>
         ) : (
-          <div className="p-3 md:p-4 space-y-3">
+          <div className="p-3 md:p-4 space-y-3 pb-6">
             {items.map((item) => (
               <Card 
               key={item.product._id} 

@@ -200,6 +200,12 @@
   .scrollable-area {
     -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
+    /* Force hardware acceleration for smoother scrolling on iOS */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    /* Ensure proper height calculation on iOS */
+    position: relative;
+    overflow-y: scroll !important;
   }
   
   /* Ensure buttons are always clickable on iOS */
