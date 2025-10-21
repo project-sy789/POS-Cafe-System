@@ -1,10 +1,13 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
-const useCartStore = create((set, get) => ({
-  items: [],
-  customerName: '',
-  tableNumber: '',
-  orderType: 'Dine-In',
+const useCartStore = create(
+  persist(
+    (set, get) => ({
+      items: [],
+      customerName: '',
+      tableNumber: '',
+      orderType: 'Dine-In',
 
   addItem: (product, quantity = 1, selectedOptions = [], customizationNotes = '') => set((state) => {
     // Calculate price breakdown
@@ -177,6 +180,17 @@ const useCartStore = create((set, get) => ({
     tableNumber: '',
     orderType: 'Dine-In'
   }),
-}))
+    }),
+    {
+      name: 'cart-storage', // localStorage key
+      partialize: (state) => ({
+        items: state.items,
+        customerName: state.customerName,
+        tableNumber: state.tableNumber,
+        orderType: state.orderType,
+      }),
+    }
+  )
+)
 
 export default useCartStore
