@@ -57,10 +57,14 @@ const SettingsForm = ({ activeSection = 'all' }) => {
           icon: '🏪'
         }
       })
-      if (data.faviconUrl) {
+      if (data.faviconData) {
+        setFaviconPreview(data.faviconData)
+      } else if (data.faviconUrl) {
         setFaviconPreview(data.faviconUrl)
       }
-      if (data.logoUrl) {
+      if (data.logoData) {
+        setLogoPreview(data.logoData)
+      } else if (data.logoUrl) {
         setLogoPreview(data.logoUrl)
       }
       if (data.featuredCategory?.iconUrl) {

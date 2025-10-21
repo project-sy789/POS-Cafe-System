@@ -3,14 +3,15 @@
  * Dynamically updates favicon based on settings
  */
 
-export const updateFavicon = (faviconUrl) => {
-  if (!faviconUrl) return;
+export const updateFavicon = (faviconUrl, faviconData) => {
+  const favicon = faviconData || faviconUrl;
+  if (!favicon) return;
 
   // Update all favicon links
   const links = document.querySelectorAll('link[rel*="icon"]');
   links.forEach(link => {
     if (link.rel === 'icon' || link.rel === 'shortcut icon') {
-      link.href = faviconUrl;
+      link.href = favicon;
     }
   });
 
@@ -18,7 +19,7 @@ export const updateFavicon = (faviconUrl) => {
   if (links.length === 0) {
     const link = document.createElement('link');
     link.rel = 'icon';
-    link.href = faviconUrl;
+    link.href = favicon;
     document.head.appendChild(link);
   }
 };

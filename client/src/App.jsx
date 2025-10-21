@@ -28,8 +28,8 @@ function App() {
     const loadSettings = async () => {
       try {
         const settings = await getSettings()
-        if (settings.faviconUrl) {
-          updateFavicon(settings.faviconUrl)
+        if (settings.faviconData || settings.faviconUrl) {
+          updateFavicon(settings.faviconUrl, settings.faviconData)
         }
         if (settings.storeName) {
           updatePageTitle(settings.storeName)

@@ -53,10 +53,18 @@ const settingsSchema = new mongoose.Schema({
     default: '',
     trim: true
   },
+  faviconData: {
+    type: String,
+    default: ''
+  },
   logoUrl: {
     type: String,
     default: '',
     trim: true
+  },
+  logoData: {
+    type: String,
+    default: ''
   },
   featuredCategory: {
     mode: {

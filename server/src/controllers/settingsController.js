@@ -2,6 +2,7 @@ import Settings from '../models/Settings.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import { promises as fsPromises } from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -152,9 +153,29 @@ export const updateSettings = async (req, res) => {
       }
     }
 
-    // Handle favicon upload
+    // Handle favicon upload - convert to base64
     if (req.files && req.files.favicon && req.files.favicon[0]) {
-      settings.faviconUrl = `/uploads/${req.files.favicon[0].filename}`;
+      const faviconFile = req.files.favicon[0];
+      
+      // Validate file size (max 500KB for favicon)
+      if (faviconFile.size > 500 * 1024) {
+        fs.unlinkSync(faviconFile.path);
+        return res.status(400).json({
+          error: 'Validation Error',
+          message: 'Favicon size must be less than 500KB'
+        });
+      }
+      
+      // Read file and convert to base64
+      const faviconBuffer = await fsPromises.readFile(faviconFile.path);
+      const base64Favicon = faviconBuffer.toString('base64');
+      settings.faviconData = `data:${faviconFile.mimetype};base64,${base64Favicon}`;
+      
+      // Delete temporary file
+      fs.unlinkSync(faviconFile.path);
+      
+      // Keep faviconUrl for backward compatibility
+      settings.faviconUrl = `/uploads/${faviconFile.filename}`;
 
       // Delete old favicon file if it exists
       if (oldFaviconUrl && oldFaviconUrl.startsWith('/uploads/')) {
@@ -165,9 +186,29 @@ export const updateSettings = async (req, res) => {
       }
     }
 
-    // Handle logo upload
+    // Handle logo upload - convert to base64
     if (req.files && req.files.logo && req.files.logo[0]) {
-      settings.logoUrl = `/uploads/${req.files.logo[0].filename}`;
+      const logoFile = req.files.logo[0];
+      
+      // Validate file size (max 1MB for logo)
+      if (logoFile.size > 1024 * 1024) {
+        fs.unlinkSync(logoFile.path);
+        return res.status(400).json({
+          error: 'Validation Error',
+          message: 'Logo size must be less than 1MB'
+        });
+      }
+      
+      // Read file and convert to base64
+      const logoBuffer = await fsPromises.readFile(logoFile.path);
+      const base64Logo = logoBuffer.toString('base64');
+      settings.logoData = `data:${logoFile.mimetype};base64,${base64Logo}`;
+      
+      // Delete temporary file
+      fs.unlinkSync(logoFile.path);
+      
+      // Keep logoUrl for backward compatibility
+      settings.logoUrl = `/uploads/${logoFile.filename}`;
 
       // Delete old logo file if it exists
       if (oldLogoUrl && oldLogoUrl.startsWith('/uploads/')) {
