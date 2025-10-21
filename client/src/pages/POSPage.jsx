@@ -157,7 +157,7 @@ const POSPage = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
         {/* Left Side - Menu Area */}
-        <div className="flex-1 flex flex-col overflow-hidden pb-[65vh] md:pb-0">
+        <div className="flex-1 flex flex-col overflow-hidden">
           {/* Categories Section */}
           <div 
             style={{ 
@@ -180,7 +180,7 @@ const POSPage = () => {
           </div>
 
           {/* Products Section */}
-          <div className="flex-1 overflow-y-auto p-3 md:p-4 lg:p-6">
+          <div className="flex-1 overflow-y-auto p-3 md:p-4 lg:p-6 pb-[70vh] md:pb-6">
             <h2 
               style={{ color: 'var(--theme-text-primary)' }}
               className="text-base md:text-lg lg:text-xl font-semibold mb-3"
