@@ -84,13 +84,12 @@ export const createCategory = async (req, res) => {
       } else {
         console.log('No image file in req.files.image');
       }
-    } else {
-      console.log('No files in request');
-    }
       
       if (req.files.icon && req.files.icon[0]) {
         iconUrl = `/uploads/${req.files.icon[0].filename}`;
       }
+    } else {
+      console.log('No files in request');
     }
 
     // Create new category
