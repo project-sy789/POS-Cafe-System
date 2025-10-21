@@ -22,13 +22,13 @@ const LoginPage = () => {
     const newErrors = {}
 
     if (!formData.username.trim()) {
-      newErrors.username = 'Username is required'
+      newErrors.username = 'กรุณากรอกชื่อผู้ใช้'
     }
 
     if (!formData.password) {
-      newErrors.password = 'Password is required'
+      newErrors.password = 'กรุณากรอกรหัสผ่าน'
     } else if (formData.password.length < 4) {
-      newErrors.password = 'Password must be at least 4 characters'
+      newErrors.password = 'รหัสผ่านต้องมีอย่างน้อย 4 ตัวอักษร'
     }
 
     setErrors(newErrors)
@@ -68,7 +68,7 @@ const LoginPage = () => {
       // Store auth data
       setAuth(response.user, response.token)
       
-      toast.success(`Welcome back, ${response.user.username}!`)
+      toast.success(`ยินดีต้อนรับ, ${response.user.username}!`)
 
       // Redirect based on user role
       switch (response.user.role) {
@@ -93,7 +93,7 @@ const LoginPage = () => {
       // But we can add specific handling here if needed
       if (error.response?.status === 401) {
         setErrors({
-          password: 'Invalid username or password',
+          password: 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง',
         })
       }
     } finally {
@@ -106,27 +106,27 @@ const LoginPage = () => {
       <div className="w-full max-w-md">
         <div className="text-center mb-6 md:mb-8">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-2">☕ Café POS</h1>
-          <p className="text-sm md:text-base text-gray-600">Sign in to your account</p>
+          <p className="text-sm md:text-base text-gray-600">เข้าสู่ระบบบัญชีของคุณ</p>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-xl md:text-2xl">Login</CardTitle>
+            <CardTitle className="text-xl md:text-2xl">เข้าสู่ระบบ</CardTitle>
             <CardDescription className="text-sm md:text-base">
-              Enter your credentials to access the system
+              กรอกข้อมูลเพื่อเข้าใช้งานระบบ
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
               <div className="space-y-2">
                 <label htmlFor="username" className="text-sm md:text-base font-medium text-gray-700">
-                  Username
+                  ชื่อผู้ใช้
                 </label>
                 <Input
                   id="username"
                   name="username"
                   type="text"
-                  placeholder="Enter your username"
+                  placeholder="กรอกชื่อผู้ใช้"
                   value={formData.username}
                   onChange={handleChange}
                   disabled={isLoading}
@@ -141,13 +141,13 @@ const LoginPage = () => {
 
               <div className="space-y-2">
                 <label htmlFor="password" className="text-sm md:text-base font-medium text-gray-700">
-                  Password
+                  รหัสผ่าน
                 </label>
                 <Input
                   id="password"
                   name="password"
                   type="password"
-                  placeholder="Enter your password"
+                  placeholder="กรอกรหัสผ่าน"
                   value={formData.password}
                   onChange={handleChange}
                   disabled={isLoading}
@@ -164,7 +164,7 @@ const LoginPage = () => {
                 className="w-full min-h-[52px] md:min-h-[56px] text-base md:text-lg touch-manipulation"
                 disabled={isLoading}
               >
-                {isLoading ? 'Signing in...' : 'Sign In'}
+                {isLoading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ'}
               </Button>
             </form>
           </CardContent>
