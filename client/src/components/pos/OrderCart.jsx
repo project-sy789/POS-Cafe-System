@@ -3,7 +3,7 @@ import useCartStore from '../../store/cartStore'
 import { Card } from '../ui/card'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
-import { Trash2, Plus, Minus, Edit2 } from 'lucide-react'
+import { Trash2, Plus, Minus, Edit2, ChevronDown, ChevronUp } from 'lucide-react'
 import api from '../../services/api'
 import CustomizationModal from './CustomizationModal'
 
@@ -31,6 +31,7 @@ const OrderCart = ({ onCheckout }) => {
   const [taxIncludedInPrice, setTaxIncludedInPrice] = useState(false)
   const [editingItem, setEditingItem] = useState(null)
   const [isCustomizationModalOpen, setIsCustomizationModalOpen] = useState(false)
+  const [isCartExpanded, setIsCartExpanded] = useState(false)
 
   // Fetch tax settings
   useEffect(() => {
@@ -96,27 +97,46 @@ const OrderCart = ({ onCheckout }) => {
       }}
       className="flex flex-col h-full border-t-2 md:border-t-0"
     >
-      {/* Header */}
+      {/* Header - Collapsible on Mobile */}
       <div 
         style={{ borderColor: 'var(--theme-border)' }}
-        className="p-3 md:p-4 border-b"
+        className="p-3 md:p-4 border-b md:cursor-default cursor-pointer"
+        onClick={() => setIsCartExpanded(!isCartExpanded)}
       >
-        <h2 
-          style={{ color: 'var(--theme-text-primary)' }}
-          className="text-lg md:text-xl font-bold"
-        >
-          ออเดอร์ปัจจุบัน
-        </h2>
-        <p 
-          style={{ color: 'var(--theme-text-secondary)' }}
-          className="text-xs md:text-sm"
-        >
-          {items.length} รายการ
-        </p>
+        <div className="flex items-center justify-between">
+          <div className="flex-1">
+            <h2 
+              style={{ color: 'var(--theme-text-primary)' }}
+              className="text-lg md:text-xl font-bold"
+            >
+              ออเดอร์ปัจจุบัน
+            </h2>
+            <p 
+              style={{ color: 'var(--theme-text-secondary)' }}
+              className="text-xs md:text-sm"
+            >
+              {items.length} รายการ {items.length > 0 && `• ฿${total.toFixed(2)}`}
+            </p>
+          </div>
+          {/* Toggle button - only visible on mobile */}
+          <button 
+            className="md:hidden p-2 touch-manipulation"
+            onClick={(e) => {
+              e.stopPropagation()
+              setIsCartExpanded(!isCartExpanded)
+            }}
+          >
+            {isCartExpanded ? (
+              <ChevronDown className="h-6 w-6" style={{ color: 'var(--theme-text-primary)' }} />
+            ) : (
+              <ChevronUp className="h-6 w-6" style={{ color: 'var(--theme-text-primary)' }} />
+            )}
+          </button>
+        </div>
       </div>
 
-      {/* Cart Items + Order Details (Scrollable Area) */}
-      <div className="flex-1 overflow-y-auto cart-container scrollable-area min-h-0">
+      {/* Cart Items + Order Details (Scrollable Area) - Collapsible on Mobile */}
+      <div className={`flex-1 overflow-y-auto cart-container scrollable-area min-h-0 ${!isCartExpanded ? 'hidden md:block' : ''}`}>
         {items.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-gray-400 p-3 md:p-4">
             <div className="text-6xl mb-4">🛒</div>
@@ -367,14 +387,14 @@ const OrderCart = ({ onCheckout }) => {
         )}
       </div>
 
-      {/* Totals */}
+      {/* Totals - Collapsible on Mobile */}
       {items.length > 0 && (
         <div 
           style={{ 
             borderColor: 'var(--theme-border)',
             backgroundColor: 'var(--theme-bg-primary)'
           }}
-          className="border-t p-3 md:p-4 space-y-2"
+          className={`border-t p-3 md:p-4 space-y-2 ${!isCartExpanded ? 'hidden md:block' : ''}`}
         >
           {taxIncludedInPrice ? (
             <>

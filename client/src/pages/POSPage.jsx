@@ -180,7 +180,7 @@ const POSPage = () => {
           </div>
 
           {/* Products Section */}
-          <div className="flex-1 overflow-y-auto p-3 md:p-4 lg:p-6 pb-[70vh] md:pb-6">
+          <div className="flex-1 overflow-y-auto p-3 md:p-4 lg:p-6 pb-24 md:pb-6">
             <h2 
               style={{ color: 'var(--theme-text-primary)' }}
               className="text-base md:text-lg lg:text-xl font-semibold mb-3"
@@ -195,13 +195,13 @@ const POSPage = () => {
           </div>
         </div>
 
-        {/* Right Side - Cart Sidebar (Desktop: sidebar, Mobile: fixed bottom) */}
+        {/* Right Side - Cart Sidebar (Desktop: sidebar, Mobile: fixed bottom collapsible) */}
         <div 
           style={{ 
             backgroundColor: 'var(--theme-bg-primary)',
             borderColor: 'var(--theme-border)'
           }}
-          className="fixed bottom-0 left-0 right-0 md:relative md:w-96 lg:w-[28rem] xl:w-[32rem] md:border-l flex flex-col max-h-[65vh] md:max-h-none z-40"
+          className="fixed bottom-0 left-0 right-0 md:relative md:w-96 lg:w-[28rem] xl:w-[32rem] md:border-l flex flex-col max-h-[85vh] md:max-h-none z-40 transition-all duration-300"
         >
           <OrderCart onCheckout={handleCheckout} />
         </div>
