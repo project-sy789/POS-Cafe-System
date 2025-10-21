@@ -12,6 +12,7 @@ import productRoutes from './routes/products.js';
 import orderRoutes from './routes/orders.js';
 import userRoutes from './routes/users.js';
 import settingsRoutes from './routes/settings.js';
+import seedRoutes from './routes/seed.js';
 import { socketAuthMiddleware } from './socket/socketAuth.js';
 import { setupSocketHandlers } from './socket/socketHandlers.js';
 
@@ -55,6 +56,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/seed', seedRoutes);
 
 // Serve static files from React build in production
 if (process.env.NODE_ENV === 'production') {
