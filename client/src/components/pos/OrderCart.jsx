@@ -409,14 +409,14 @@ const OrderCart = ({ onCheckout }) => {
         )}
       </div>
 
-      {/* Totals - Collapsible on Mobile */}
+      {/* Totals - Sticky at bottom, Collapsible on Mobile */}
       {items.length > 0 && (
         <div 
           style={{ 
             borderColor: 'var(--theme-border)',
             backgroundColor: 'var(--theme-bg-primary)'
           }}
-          className={`border-t p-3 md:p-4 space-y-2 ${!isCartExpanded ? 'hidden md:block' : ''}`}
+          className={`border-t p-3 md:p-4 space-y-2 flex-shrink-0 ${!isCartExpanded ? 'hidden md:block' : ''}`}
         >
           {taxIncludedInPrice ? (
             <>
