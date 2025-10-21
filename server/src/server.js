@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import connectDB from './config/database.js';
@@ -12,6 +14,10 @@ import userRoutes from './routes/users.js';
 import settingsRoutes from './routes/settings.js';
 import { socketAuthMiddleware } from './socket/socketAuth.js';
 import { setupSocketHandlers } from './socket/socketHandlers.js';
+
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Load environment variables
 dotenv.config();
@@ -37,12 +43,7 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static files from uploads directory
 app.use('/uploads', express.static('uploads'));
 
-// Basic route
-app.get('/', (req, res) => {
-  res.json({ message: 'Café POS System API' });
-});
-
-// Health check
+// Health check (before other routes)
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
@@ -54,6 +55,22 @@ app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/settings', settingsRoutes);
+
+// Serve static files from React build in production
+if (process.env.NODE_ENV === 'production') {
+  const clientBuildPath = path.join(__dirname, '../../client/dist');
+  app.use(express.static(clientBuildPath));
+
+  // Handle React routing - return index.html for all non-API routes
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(clientBuildPath, 'index.html'));
+  });
+} else {
+  // Development mode - just show API message
+  app.get('/', (req, res) => {
+    res.json({ message: 'Café POS System API' });
+  });
+}
 
 // Socket.IO authentication middleware
 io.use(socketAuthMiddleware);
