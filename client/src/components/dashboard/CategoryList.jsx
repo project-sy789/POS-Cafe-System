@@ -110,13 +110,18 @@ const CategoryList = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {categories.map((category) => (
             <Card key={category._id} className="hover:shadow-md transition-shadow overflow-hidden">
-              {/* Category Image - Show imageData (base64) first, then imageUrl */}
-              {category.imageData || category.imageUrl ? (
+              {/* Category Image - Show imageData (base64) first, then imageUrl, then icon */}
+              {(category.imageData || category.imageUrl) ? (
                 <div className="w-full h-48 overflow-hidden bg-gray-100">
                   <img
                     src={category.imageData || category.imageUrl}
                     alt={category.name}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      console.error('Image load error for category:', category.name, category);
+                      e.target.style.display = 'none';
+                      e.target.parentElement.innerHTML = '<div class="w-full h-full flex items-center justify-center"><span class="text-6xl">📁</span></div>';
+                    }}
                   />
                 </div>
               ) : (
