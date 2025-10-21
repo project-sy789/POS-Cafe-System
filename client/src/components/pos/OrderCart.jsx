@@ -362,6 +362,7 @@ const OrderCart = ({ onCheckout }) => {
               </Button>
             </div>
           </div>
+          </div>
         )}
       </div>
 
