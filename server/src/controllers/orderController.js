@@ -394,12 +394,31 @@ export const updateOrderStatus = async (req, res) => {
       });
     }
 
+    // Store old status for comparison
+    const oldStatus = order.status;
+
     // Update status
     order.status = status;
 
     // Set completedAt timestamp if status is Completed
     if (status === 'Completed' && !order.completedAt) {
       order.completedAt = new Date();
+    }
+
+    // Restore stock if order is cancelled (and wasn't already cancelled)
+    if (status === 'Cancelled' && oldStatus !== 'Cancelled') {
+      console.log('Restoring stock for cancelled order:', order.orderNumber);
+      for (const item of order.items) {
+        const productId = item.product._id || item.product;
+        const updatedProduct = await Product.findByIdAndUpdate(
+          productId,
+          { $inc: { stockCount: item.quantity } },
+          { new: true }
+        );
+        if (updatedProduct) {
+          console.log(`Stock restored for product ${productId}: ${updatedProduct.stockCount - item.quantity} -> ${updatedProduct.stockCount}`);
+        }
+      }
     }
 
     await order.save();
