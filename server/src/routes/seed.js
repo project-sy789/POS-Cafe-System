@@ -3,7 +3,6 @@ import User from '../models/User.js';
 import Category from '../models/Category.js';
 import Product from '../models/Product.js';
 import Settings from '../models/Settings.js';
-import ProductOption from '../models/ProductOption.js';
 
 const router = express.Router();
 
@@ -88,31 +87,6 @@ router.post('/initialize', async (req, res) => {
       }
     ]);
 
-    // Create product options
-    await ProductOption.insertMany([
-      {
-        name: 'ขนาด',
-        type: 'single',
-        required: true,
-        values: [
-          { name: 'เล็ก', priceModifier: 0 },
-          { name: 'กลาง', priceModifier: 10 },
-          { name: 'ใหญ่', priceModifier: 20 }
-        ]
-      },
-      {
-        name: 'ความหวาน',
-        type: 'single',
-        required: false,
-        values: [
-          { name: 'ไม่หวาน', priceModifier: 0 },
-          { name: 'หวานน้อย', priceModifier: 0 },
-          { name: 'หวานปกติ', priceModifier: 0 },
-          { name: 'หวานมาก', priceModifier: 0 }
-        ]
-      }
-    ]);
-
     res.json({
       success: true,
       message: 'Database initialized successfully',
@@ -120,8 +94,7 @@ router.post('/initialize', async (req, res) => {
         users: 2,
         categories: categories.length,
         products: 3,
-        settings: 1,
-        productOptions: 2
+        settings: 1
       }
     });
 
