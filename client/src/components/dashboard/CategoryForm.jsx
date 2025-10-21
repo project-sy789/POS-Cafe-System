@@ -33,7 +33,10 @@ const CategoryForm = ({ category, onClose }) => {
         imageUrl: category.imageUrl || '',
         iconUrl: category.iconUrl || '',
       })
-      if (category.imageUrl) {
+      // Show imageData (base64) if available, otherwise imageUrl
+      if (category.imageData) {
+        setImagePreview(category.imageData)
+      } else if (category.imageUrl) {
         setImagePreview(category.imageUrl)
       }
       if (category.iconUrl) {
