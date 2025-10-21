@@ -126,7 +126,7 @@ const OrderCart = ({ onCheckout }) => {
         ) : (
           <div className="p-3 md:p-4 space-y-3">
             {items.map((item) => (
-            <Card 
+              <Card 
               key={item.product._id} 
               style={{
                 backgroundColor: 'var(--theme-bg-primary)',
@@ -300,7 +300,7 @@ const OrderCart = ({ onCheckout }) => {
                   </Button>
                 </div>
               </div>
-            </Card>
+              </Card>
             ))}
 
             {/* Order Details Form (Inside Scrollable Area) */}
@@ -363,6 +363,7 @@ const OrderCart = ({ onCheckout }) => {
             </div>
           </div>
         </div>
+          </div>
         )}
       </div>
 
