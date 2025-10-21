@@ -206,9 +206,9 @@ const SettingsForm = ({ activeSection = 'all' }) => {
         return
       }
 
-      // Validate file size (5MB max for logo)
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error('ขนาดไฟล์ต้องไม่เกิน 5MB')
+      // Validate file size (2MB max for logo)
+      if (file.size > 2 * 1024 * 1024) {
+        toast.error('ขนาดไฟล์ต้องไม่เกิน 2MB')
         return
       }
 
@@ -735,7 +735,7 @@ const SettingsForm = ({ activeSection = 'all' }) => {
                 disabled={loading}
               />
               <p className="text-xs text-gray-500 mt-1">
-                ขนาดแนะนำ: 200x200px หรือ 400x400px | ไฟล์: PNG, JPG | ขนาดไม่เกิน 5MB
+                ขนาดแนะนำ: 200x200px หรือ 400x400px | ไฟล์: PNG, JPG | ขนาดไม่เกิน 2MB
               </p>
               
               {/* Logo Preview */}

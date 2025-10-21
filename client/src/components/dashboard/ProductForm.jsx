@@ -124,9 +124,9 @@ const ProductForm = ({ product, categories, onClose }) => {
         return
       }
 
-      // Validate file size (5MB max)
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error('Image size must be less than 5MB')
+      // Validate file size (2MB max)
+      if (file.size > 2 * 1024 * 1024) {
+        toast.error('Image size must be less than 2MB')
         return
       }
 
@@ -452,7 +452,7 @@ const ProductForm = ({ product, categories, onClose }) => {
               disabled={loading}
             />
             <p className="text-xs text-gray-500 mt-1">
-              Max file size: 5MB. Supported formats: JPG, PNG, WebP
+              Max file size: 2MB. Supported formats: JPG, PNG, WebP
             </p>
             
             {/* Image Preview */}
