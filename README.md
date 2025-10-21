@@ -18,18 +18,18 @@
 - รองรับการชำระเงินด้วยเงินสดและ QR Code (PromptPay)
 - พิมพ์ใบเสร็จพร้อมข้อมูลร้านครบถ้วน
 
-### 👨‍🍳 Barista Station
+### � Order iManagement
 - แสดงคิวออเดอร์แบบ Real-time
 - อัปเดตสถานะออเดอร์ (Pending → Preparing → Ready → Completed)
 - แสดงรายละเอียดสินค้าและตัวเลือกเพิ่มเติม
-- รองรับหลายบาริสต้าทำงานพร้อมกัน
+- จัดการออเดอร์ได้หลายคนพร้อมกัน
 
 ### 📊 Dashboard (Manager)
 - ภาพรวมยอดขายและสถิติ
 - รายงานยอดขายรายวัน/รายเดือน
 - จัดการสินค้า (เพิ่ม/แก้ไข/ลบ)
 - จัดการหมวดหมู่สินค้า
-- จัดการผู้ใช้งาน (Cashier, Barista)
+- จัดการผู้ใช้งาน (Cashier)
 - ตั้งค่าระบบ (ชื่อร้าน, ภาษี, PromptPay, ธีม UI)
 
 ### 🎨 Theme System
@@ -178,8 +178,7 @@ npm start
 | Role | Username | Password | Permissions |
 |------|----------|----------|-------------|
 | **Manager** | admin | admin123 | Full access to all features |
-| **Cashier** | cashier1 | cashier123 | POS, Barista, limited dashboard |
-| **Barista** | barista1 | barista123 | Barista station only |
+| **Cashier** | cashier1 | cashier123 | POS and order management |
 
 ## 📱 Pages & Routes
 
@@ -188,7 +187,7 @@ npm start
 
 ### Protected Routes
 - `/pos` - POS page (Cashier, Manager)
-- `/barista` - Barista station (Cashier, Manager)
+- `/orders` - Order management (Cashier, Manager)
 - `/dashboard` - Dashboard home (Manager only)
 - `/dashboard/products` - Product management (Manager only)
 - `/dashboard/categories` - Category management (Manager only)
