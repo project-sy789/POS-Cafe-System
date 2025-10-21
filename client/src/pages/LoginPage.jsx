@@ -167,12 +167,6 @@ const LoginPage = () => {
                 {isLoading ? 'Signing in...' : 'Sign In'}
               </Button>
             </form>
-
-            <div className="mt-6 pt-6 border-t border-gray-200">
-              <p className="text-xs md:text-sm text-gray-500 text-center">
-                Demo accounts: admin/admin123 (Manager), cashier1/cashier123 (Cashier), barista1/barista123 (Barista)
-              </p>
-            </div>
           </CardContent>
         </Card>
       </div>
