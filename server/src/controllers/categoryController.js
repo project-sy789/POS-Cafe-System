@@ -36,6 +36,10 @@ export const createCategory = async (req, res) => {
   try {
     const { name, description } = req.body;
 
+    console.log('=== Create Category Request ===');
+    console.log('Body:', req.body);
+    console.log('Files:', req.files);
+
     // Validate input
     if (!name) {
       return res.status(400).json({
@@ -50,9 +54,11 @@ export const createCategory = async (req, res) => {
     let imageData = '';
 
     if (req.files) {
+      console.log('Files received:', Object.keys(req.files));
       // Handle image upload - convert to base64
       if (req.files.image && req.files.image[0]) {
         const imageFile = req.files.image[0];
+        console.log('Image file:', imageFile.filename, imageFile.size, 'bytes');
         
         // Validate file size (max 2MB)
         if (imageFile.size > 2 * 1024 * 1024) {
@@ -68,13 +74,19 @@ export const createCategory = async (req, res) => {
         const imageBuffer = await fsPromises.readFile(imageFile.path);
         const base64Image = imageBuffer.toString('base64');
         imageData = `data:${imageFile.mimetype};base64,${base64Image}`;
+        console.log('Base64 image created, length:', imageData.length);
         
         // Delete temporary file
         fs.unlinkSync(imageFile.path);
         
         // Keep imageUrl for backward compatibility
         imageUrl = `/uploads/${imageFile.filename}`;
+      } else {
+        console.log('No image file in req.files.image');
       }
+    } else {
+      console.log('No files in request');
+    }
       
       if (req.files.icon && req.files.icon[0]) {
         iconUrl = `/uploads/${req.files.icon[0].filename}`;
@@ -90,7 +102,9 @@ export const createCategory = async (req, res) => {
       imageData
     });
 
+    console.log('Saving category with imageData length:', imageData.length);
     await category.save();
+    console.log('Category saved successfully with ID:', category._id);
 
     // Emit category_update event via Socket.IO
     const io = getIO();
@@ -181,14 +195,21 @@ export const updateCategory = async (req, res) => {
     const oldImageUrl = category.imageUrl;
     const oldIconUrl = category.iconUrl;
 
+    console.log('=== Update Category Request ===');
+    console.log('Category ID:', id);
+    console.log('Body:', req.body);
+    console.log('Files:', req.files);
+
     // Update fields
     if (name !== undefined) category.name = name;
     if (description !== undefined) category.description = description;
 
     // Handle file uploads
     if (req.files) {
+      console.log('Files received:', Object.keys(req.files));
       if (req.files.image && req.files.image[0]) {
         const imageFile = req.files.image[0];
+        console.log('Image file:', imageFile.filename, imageFile.size, 'bytes');
         
         // Validate file size (max 2MB)
         if (imageFile.size > 2 * 1024 * 1024) {
@@ -204,6 +225,7 @@ export const updateCategory = async (req, res) => {
         const imageBuffer = await fsPromises.readFile(imageFile.path);
         const base64Image = imageBuffer.toString('base64');
         category.imageData = `data:${imageFile.mimetype};base64,${base64Image}`;
+        console.log('Base64 image created, length:', category.imageData.length);
         
         // Delete temporary file
         fs.unlinkSync(imageFile.path);
