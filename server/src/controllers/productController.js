@@ -3,6 +3,7 @@ import Order from '../models/Order.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import { promises as fsPromises } from 'fs';
 import { emitProductUpdate } from '../socket/socketHandlers.js';
 import { getIO } from '../server.js';
 
@@ -91,11 +92,32 @@ export const createProduct = async (req, res) => {
       });
     }
 
-    // Handle image upload
+    // Handle image upload - convert to base64
     let imageUrl = '';
+    let imageData = '';
     if (req.files && req.files.image && req.files.image[0]) {
-      // Store relative path for the image
-      imageUrl = `/uploads/${req.files.image[0].filename}`;
+      const imageFile = req.files.image[0];
+      
+      // Validate file size (max 2MB)
+      if (imageFile.size > 2 * 1024 * 1024) {
+        // Delete uploaded file
+        fs.unlinkSync(imageFile.path);
+        return res.status(400).json({
+          error: 'Validation Error',
+          message: 'Image size must be less than 2MB'
+        });
+      }
+      
+      // Read file and convert to base64
+      const imageBuffer = await fsPromises.readFile(imageFile.path);
+      const base64Image = imageBuffer.toString('base64');
+      imageData = `data:${imageFile.mimetype};base64,${base64Image}`;
+      
+      // Delete temporary file
+      fs.unlinkSync(imageFile.path);
+      
+      // Keep imageUrl for backward compatibility
+      imageUrl = `/uploads/${imageFile.filename}`;
     }
 
     // Parse options if provided
@@ -135,6 +157,7 @@ export const createProduct = async (req, res) => {
       price: parseFloat(price),
       description: description || '',
       imageUrl,
+      imageData,
       category,
       stockCount: stockCount !== undefined ? parseInt(stockCount) : 0,
       lowStockThreshold: lowStockThreshold !== undefined ? parseInt(lowStockThreshold) : 10,
@@ -311,9 +334,30 @@ export const updateProduct = async (req, res) => {
       });
     }
 
-    // Handle product image upload
+    // Handle product image upload - convert to base64
     if (req.files && req.files.image && req.files.image[0]) {
-      product.imageUrl = `/uploads/${req.files.image[0].filename}`;
+      const imageFile = req.files.image[0];
+      
+      // Validate file size (max 2MB)
+      if (imageFile.size > 2 * 1024 * 1024) {
+        // Delete uploaded file
+        fs.unlinkSync(imageFile.path);
+        return res.status(400).json({
+          error: 'Validation Error',
+          message: 'Image size must be less than 2MB'
+        });
+      }
+      
+      // Read file and convert to base64
+      const imageBuffer = await fsPromises.readFile(imageFile.path);
+      const base64Image = imageBuffer.toString('base64');
+      product.imageData = `data:${imageFile.mimetype};base64,${base64Image}`;
+      
+      // Delete temporary file
+      fs.unlinkSync(imageFile.path);
+      
+      // Keep imageUrl for backward compatibility
+      product.imageUrl = `/uploads/${imageFile.filename}`;
 
       // Delete old image file if it exists
       if (oldImageUrl && oldImageUrl.startsWith('/uploads/')) {

@@ -138,9 +138,9 @@ const OrderCart = ({ onCheckout }) => {
             >
               <div className="flex items-start gap-2 md:gap-3">
                 {/* Product Image */}
-                {item.product.imageUrl ? (
+                {item.product.imageData || item.product.imageUrl ? (
                   <img
-                    src={item.product.imageUrl}
+                    src={item.product.imageData || item.product.imageUrl}
                     alt={item.product.name}
                     style={{ borderRadius: 'var(--theme-radius-sm)' }}
                     className="w-14 h-14 md:w-16 md:h-16 object-cover"

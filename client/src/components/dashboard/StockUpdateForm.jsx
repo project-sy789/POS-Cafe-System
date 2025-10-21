@@ -64,9 +64,9 @@ const StockUpdateForm = ({ product, onClose }) => {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Product Info */}
           <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-            {product.imageUrl && (
+            {(product.imageData || product.imageUrl) && (
               <img
-                src={product.imageUrl}
+                src={product.imageData || product.imageUrl}
                 alt={product.name}
                 className="w-16 h-16 rounded object-cover"
               />

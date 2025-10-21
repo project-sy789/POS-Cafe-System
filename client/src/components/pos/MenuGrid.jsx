@@ -141,9 +141,9 @@ const MenuGrid = ({ categoryId, onAddToCart, featuredProducts = [] }) => {
             }`}
           >
             <div className="relative">
-              {product.imageUrl ? (
+              {product.imageData || product.imageUrl ? (
                 <img
-                  src={product.imageUrl}
+                  src={product.imageData || product.imageUrl}
                   alt={product.name}
                   style={{ borderRadius: 'var(--theme-radius-sm) var(--theme-radius-sm) 0 0' }}
                   className="w-full h-32 md:h-40 lg:h-48 object-cover"

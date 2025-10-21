@@ -39,7 +39,9 @@ const ProductForm = ({ product, categories, onClose }) => {
         lowStockThreshold: product.lowStockThreshold || '10',
         isAvailable: product.isAvailable !== undefined ? product.isAvailable : true,
       })
-      if (product.imageUrl) {
+      if (product.imageData) {
+        setImagePreview(product.imageData)
+      } else if (product.imageUrl) {
         setImagePreview(product.imageUrl)
       }
       if (product.options && product.options.length > 0) {

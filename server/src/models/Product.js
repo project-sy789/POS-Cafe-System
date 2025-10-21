@@ -20,6 +20,10 @@ const productSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  imageData: {
+    type: String,
+    default: ''
+  },
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',

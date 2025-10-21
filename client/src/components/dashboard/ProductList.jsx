@@ -180,9 +180,9 @@ const ProductList = () => {
                   <tr key={product._id} className="hover:bg-gray-50">
                     <td className="px-4 py-3">
                       <div className="flex items-center">
-                        {product.imageUrl && (
+                        {(product.imageData || product.imageUrl) && (
                           <img
-                            src={product.imageUrl}
+                            src={product.imageData || product.imageUrl}
                             alt={product.name}
                             className="w-12 h-12 rounded object-cover mr-3"
                           />
