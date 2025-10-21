@@ -69,13 +69,18 @@ npm start --prefix server
 
 **Build Command:**
 ```
-npm install --prefix client && npm run build --prefix client && npm install --prefix server --omit=dev
+cd client && npm ci && npm run build && cd ../server && npm ci --omit=dev
 ```
 
 **Start Command:**
 ```
-npm start --prefix server
+cd server && npm start
 ```
+
+**หมายเหตุ:** 
+- ใช้ `npm ci` แทน `npm install` เพื่อติดตั้งตาม package-lock.json แบบแม่นยำ
+- `npm ci` จะติดตั้ง devDependencies โดยอัตโนมัติ (จำเป็นสำหรับ vite)
+- สำหรับ server ใช้ `--omit=dev` เพื่อไม่ติดตั้ง devDependencies
 
 5. Save Changes
 6. Manual Deploy → Deploy latest commit
